@@ -46,7 +46,7 @@ Make sure your redirect_uri is equal to:
 https://YOUR_DOMAIN/index.php
 ```
 
-![new application](https://dl.dropboxusercontent.com/spa/pvghiam459l0yh2/d5tqf3zq.png)<br>
+Set the Application and Callback URL. The Callback URL will be https://YOUR_DOMAIN/index.php<br>
 Make sure to use https for a production site - its part of the OAuth standard.
 
 More information on creating GoCoin connected applications can be found [here](http://www.gocoin.com/docs/create_application)
