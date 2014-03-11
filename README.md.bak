@@ -55,9 +55,18 @@ More information on creating GoCoin connected applications can be found [here](h
 
 1. In the Admin panel click Modules > Payment , then click Install button under GoCoin. <br><br>
 
-2. Configure GoCoin Payment extension<br>
-  a) Enter Merchant ID and Secret key <br>
+2. In WooCommerce > Settings, make sure Currency is set to US Dollars <br><br>
+![usd](https://dl.dropboxusercontent.com/spa/pvghiam459l0yh2/j4a-5r70.png)<br>
+
+3. Disable 'Order Processing' email by unchecking the box under Emails > Processing Order <br>
+
+4. Go to WooCommerce > Settings > Payment Gateways > GoCoin <br>
+  a) Enable GoCoin by Checking the box <br>
   b) Obtain a token:<br>
     i) Set client key and client id. <br>
-    ii) Click "Get Access token from GoCoin" button. You will be redirected to dashboard.gocoin.com. Allow permission to access your info then you will be redirected back to this page. The Access Token will have populated the field. <br>
-3. SAVE AGAIN. You are now ready to accept payments with GoCoin!
+    ii) BEFORE PROCEEDING CLICK "Save Changes" <br>
+    <br>
+![step 3](https://dl.dropboxusercontent.com/spa/pvghiam459l0yh2/2duixbff.png)
+ 
+5. MAKE SURE YOU SAVED YOUR CLIENT ID AND SECRET BEFORE COMPLETING THIS STEP. Click "Get Access token from GoCoin" button. You will be redirected to dashboard.gocoin.com. Allow permission to access your info then you will be redirected back to this page. The Access Token will have populated the field.  
+6. SAVE AGAIN. You are now ready to accept payments with GoCoin!
