@@ -27,6 +27,7 @@ c. 	Open /config/xml/tab_modules_list.xml file in any editor and locate the foll
 		This has list of all Prestashop Payment extensions. Add following entry to the list
 		<module name="gocoin" position="32"/>
 		Save the file.
+
 d.	Open /config/xml/modules_list.xml file in any editor and locate the following XML node 
 		<modules type="partner">
 		This has list of all Prestashop 3rd party extensions. Add following entry to the list
