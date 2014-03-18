@@ -18,8 +18,8 @@ This plugin now supports Litecoin as well as Bitcoin
 ### 1. Installation
 [Prestashop](http://www.prestashop.com/) must be installed before installing this plugin.
 
-a. 	Copy "gocoin" folder and its contents into your "modules" directory (prestashop/modules)
-b. 	Copy "gocoinlib" folder and its contents into your "classes" directory (prestashop/classes)
+a. 	Copy the "gocoin" folder and its contents into your "modules" directory (prestashop/modules)
+b. 	Copy the "gocoinlib" folder and its contents into your "classes" directory (prestashop/classes)
 c. 	Open /config/xml/tab_modules_list.xml file in any editor and locate the following XML node 
 		<tab class_name="AdminPayment" display_type="default_list">
 		This has list of all Prestashop Payment extensions. Add following entry to the list
