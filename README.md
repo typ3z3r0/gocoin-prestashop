@@ -56,7 +56,7 @@ More information on creating GoCoin connected applications can be found [here](h
 
 ### 3. Configuration
 
-1. In the Admin panel click Modules > Payment , then click Install button under GoCoin. <br><br>
+1. In the Admin panel click Modules > Payment , then click the Install button under GoCoin. <br><br>
 
 2. Configure GoCoin Payment extension<br>
   a) Enter Merchant ID and Secret key <br>
