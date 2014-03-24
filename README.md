@@ -1,10 +1,10 @@
-Version 1.0.0 BETA
+Version 1.0.0
 
-ï¿½2014 GoCoin Holdings Limited and GoCoin International Group of companies hereby grants you permission to utilize a copy of this software and documentation in connection with your use of the GoCoin.com service subject the the published Terms of Use and Privacy Policy published on the site and subject to change from time to time at the discretion of GoCoin.<br><br>
+©2014 GoCoin Holdings Limited and GoCoin International Group of companies hereby grants you permission to utilize a copy of this software and documentation in connection with your use of the GoCoin.com service subject the the published Terms of Use and Privacy Policy published on the site and subject to change from time to time at the discretion of GoCoin.<br><br>
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE DEVELOPERS OR AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br><br>
 
-## Using the Official GoCoin PrestaShop Plugin
+## Using the Official GoCoin WooCommerce Plugin
 When a shopper chooses the GoCoin payment method and places their order, they will be redirected to gateway.GoCoin.com to pay.  
 GoCoin will send a notification to your server which this plugin handles.  Then the customer will be redirected to an order summary page.  
 
@@ -18,20 +18,17 @@ This plugin now supports Litecoin as well as Bitcoin
 ### 1. Installation
 [Prestashop](http://www.prestashop.com/) must be installed before installing this plugin.
 
-a. 	Copy the "gocoin" folder and its contents into your "modules" directory (prestashop/modules)
-
-b. 	Copy the "gocoinlib" folder and its contents into your "classes" directory (prestashop/classes)
-
+a. 	Copy "gocoinpay" folder and its contents into your "modules" directory (prestashop/modules)
+b. 	Copy "gocoinlib" folder and its contents into your "classes" directory (prestashop/classes)
 c. 	Open /config/xml/tab_modules_list.xml file in any editor and locate the following XML node 
 		<tab class_name="AdminPayment" display_type="default_list">
 		This has list of all Prestashop Payment extensions. Add following entry to the list
-		<module name="gocoin" position="32"/>
+		<module name="gocoinpay" position="32"/>
 		Save the file.
-
-d.	Open /config/xml/modules_list.xml file in any editor and locate the following XML node 
+c.	Open /config/xml/modules_list.xml file in any editor and locate the following XML node 
 		<modules type="partner">
 		This has list of all Prestashop 3rd party extensions. Add following entry to the list
-		<module name="gocoin"/> 
+		<module name="gocoinpay"/> 
 		Save the file.
 
 ### 2. Setting up an application.
@@ -56,7 +53,7 @@ More information on creating GoCoin connected applications can be found [here](h
 
 ### 3. Configuration
 
-1. In the Admin panel click Modules > Payment , then click the Install button under GoCoin. <br><br>
+1. In the Admin panel click Modules > Payment , then click Install button under GoCoin. <br><br>
 
 2. Configure GoCoin Payment extension<br>
   a) Enter Merchant ID and Secret key <br>
