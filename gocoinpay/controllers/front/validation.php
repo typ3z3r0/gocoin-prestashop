@@ -1,24 +1,25 @@
 <?php
-
-class GocoinValidationModuleFrontController extends ModuleFrontController
+                    
+class GocoinpayValidationModuleFrontController extends ModuleFrontController
 {
 	/**
 	* @see FrontController::initContent()
 	*/
 	public function initContent()
 	{
-     $this->gocoin = new Gocoin();
+     $this->gocoin = new Gocoinpay();
      $result = $this->_paymentStandard();
-		
+		die($result);
 	}
 	public function getNotifyData() {
-        $post_data = file_get_contents("php://input");
+       $post_data = file_get_contents("php://input");
         if (!$post_data) {
             $response = new stdClass();
             $response->error = 'Post Data Error';
             return $response;
         }
         $response = json_decode($post_data);
+                    
         return $response;
   }
 	
@@ -27,10 +28,14 @@ class GocoinValidationModuleFrontController extends ModuleFrontController
       $module_display = $this->module->displayName;
       
       $response = $this->getNotifyData();
+      
       if(!$response){
+          die('error');
         //======================Error=============================     
       }
       if($response->error){
+          
+          die('error');
         //======================Error=============================     
       }
       if(isset($response->payload)){
@@ -69,7 +74,7 @@ class GocoinValidationModuleFrontController extends ModuleFrontController
              'expiration_time'=>$expiration_time,
              'updated_time'=>$updated_time);   
          
-       
+         
          
          $cart = new Cart((int)$cart_id);
          $context->cart = $cart; 
@@ -95,17 +100,16 @@ class GocoinValidationModuleFrontController extends ModuleFrontController
                 if ($sts == '') {
                     $sts = (int) Configuration::get('PS_OS_ERROR');
                 }
-
                 if ($event == 'invoice_created') {
                    $this->gocoin->validateOrder($cart_id, $sts, $total, $this->gocoin->displayName, NULL, $mailVars, $currency_id, false, $secure_key);
                    $this->gocoin->addTransactionId((int)$this->gocoin->currentOrder,$transction_id);
                    $iArray['order_id']= (int)$this->gocoin->currentOrder;
+                   
                    $this->gocoin->addTransaction('payment',$iArray );
+                   
                 }
         }
 
-        
-         Tools::redirect($redirect_url);
       }      
       
 	}

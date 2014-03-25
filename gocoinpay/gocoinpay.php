@@ -3,7 +3,7 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-class Gocoin extends PaymentModule
+class Gocoinpay extends PaymentModule
 {  
 	private $_error = array();
 	private $_validation = array();
@@ -12,22 +12,23 @@ class Gocoin extends PaymentModule
 	public function __construct()
 	{
     
-		$this->name = 'gocoin';
+		$this->name = 'gocoinpay';
 		$this->version = '1.3.1';
-		$this->author = 'GoCoin';
-		$this->className = 'Gocoin';
+		$this->author = 'GoCoinpay';
+		$this->className = 'Gocoinpay';
 		$this->tab = 'payments_gateways';
 
 		parent::__construct();
-    Configuration::updateValue('GOCOIN_URL','https://gateway.gocoin.com/merchant/' );
-    Configuration::updateValue('GOCOIN_PAY_TYPE','Bitcoin|Litcoin' );
-    Configuration::updateValue('PS_OS_GOCOIN','13' );
+    	Configuration::updateValue('GOCOIN_URL','https://gateway.gocoin.com/merchant/' );
+    	Configuration::updateValue('GOCOIN_PAY_TYPE','Bitcoin|Litcoin' );
+    	Configuration::updateValue('PS_OS_GOCOIN','13' );
 		$this->_shop_country = new Country((int)Configuration::get('PS_SHOP_COUNTRY_ID'));
 		$this->displayName = $this->l((Validate::isLoadedObject($this->_shop_country) && $this->_shop_country->iso_code == 'MX') ? 'Gocoin' : 'Gocoin');
 		$this->description = $this->l((Validate::isLoadedObject($this->_shop_country) && $this->_shop_country->iso_code == 'MX') ? 'Accept payments using Bitcoin or Licoin using GoCoin Payment Gateway.' : 'Accept payments using Bitcoin or Licoin using GoCoin Payment Gateway.');
 		$this->confirmUninstall = $this->l('Are you sure you want to delete your details?');
 		/* Backward compatibility */
-		require(_PS_MODULE_DIR_.'gocoin/backward_compatibility/backward.php');
+		require(_PS_MODULE_DIR_.'gocoinpay/backward_compatibility/backward.php');
+    $this->context->smarty->assign('base_url',_PS_BASE_URL_.__PS_BASE_URI__);
 		$this->context->smarty->assign('base_dir', __PS_BASE_URI__);
 	}
 
@@ -43,8 +44,7 @@ class Gocoin extends PaymentModule
 		/* This Addon is only intended to work in the USA, Canada and Mexico */
 		/*if (Validate::isLoadedObject($this->_shop_country) && !in_array($this->_shop_country->iso_code, array('US', 'MX', 'CA')))
 		{
-			$this->_errors[] = $this->l('Sorry, this module has been designed for stores based in USA, Canada and Mexico only. Please use the classic PayPal Addon instead.');
-			return false;
+			 
 		}*/
 
 		/* The cURL PHP extension must be enabled to use this module */
@@ -124,7 +124,7 @@ class Gocoin extends PaymentModule
 
 	public function getContent()
 	{
-		
+		$this->context->controller->addCSS(array($this->_path.'css/gocoin.css', $this->_path.'css/gocoin.css'));
 		/* Update the Configuration option values depending on which form has been submitted */
 		if ((Validate::isLoadedObject($this->_shop_country) && $this->_shop_country->iso_code == 'MX') && Tools::isSubmit('SubmitBasicSettings'))
 		{
@@ -172,14 +172,14 @@ class Gocoin extends PaymentModule
 	private function _saveSettingsBasic()
 	{
       if (!isset($_POST['gocoin_merchant_id']) || !$_POST['gocoin_merchant_id']){
-        	$this->_error[] = $this->l('Merchant ID is required.');
+        	$this->_error[] = $this->l('Client ID is required.');
 
       } 
       if (!isset($_POST['gocoin_access_key']) || !$_POST['gocoin_access_key'])
-			$this->_error[] = $this->l('Access Key is required.');
+			$this->_error[] = $this->l('Client Secret Key is required.');
       
       if (!isset($_POST['gocoin_token']) || !$_POST['gocoin_token'])
-			$this->_error[] = $this->l('Token is required.');
+			$this->_error[] = $this->l('Access Token is required.');
             
       Configuration::updateValue('GOCOIN_MERCHANT_ID', pSQL(Tools::getValue('gocoin_merchant_id')));
       Configuration::updateValue('GOCOIN_ACCESS_KEY', pSQL(Tools::getValue('gocoin_access_key')));
@@ -271,7 +271,7 @@ class Gocoin extends PaymentModule
 	 * Attach a GoCoin Transaction ID to an existing order (it will be displayed in the Order details section of the Back-office)
 	 *
 	 * @param $id_order integer Order ID
-	 * @param $id_transaction string PayPal Transaction ID
+	 * @param $id_transaction string   Transaction ID
 	 */
 
 	public function addTransactionId($id_order, $id_transaction)
