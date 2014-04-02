@@ -107,7 +107,7 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController
                     'user_defined_2'       =>  $billing_customer->secure_key,
                );
       $options['order_id']  =   $cart->id;
-      var_dump($options);
+       
       //$data_string = json_encode($my_array);
       
         try {
