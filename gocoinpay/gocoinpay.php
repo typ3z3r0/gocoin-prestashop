@@ -166,7 +166,7 @@ class Gocoinpay extends PaymentModule {
          */
 
         if (!isset($_POST['gocoin_token']) || !$_POST['gocoin_token'])
-            $this->_error[] = $this->l('Access Token is required.');
+           // $this->_error[] = $this->l('Access Token is required.');
 
         Configuration::updateValue('GOCOIN_MERCHANT_ID', pSQL(Tools::getValue('gocoin_merchant_id')));
         Configuration::updateValue('GOCOIN_ACCESS_KEY', pSQL(Tools::getValue('gocoin_access_key')));

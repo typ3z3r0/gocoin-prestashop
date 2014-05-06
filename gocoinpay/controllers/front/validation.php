@@ -15,6 +15,7 @@ class gocoin_validation
   
 	public function getNotifyData() {
        $post_data = file_get_contents("php://input");
+       error_log('\n'.date('l jS \of F Y h:i:s A').$post_data,3,'/var/www/prestashop/log/tester.log');
         if (!$post_data) {
             $response = new stdClass();
             $response->error = 'Post Data Error';
@@ -86,25 +87,38 @@ class gocoin_validation
 				{
             $currency = new Currency((int)Currency::getIdByIsoCode($currency_id ));	
                $i_id =   $this->gocoin->getFPStatus($iArray );
-                    
+               if(!$cart->OrderExists())
+               {
+                 $sts= (int) Configuration::get('PS_OS_ERROR');
+                 $this->gocoin->validateOrder($cart_id, $sts, $total, $this->gocoin->displayName, NULL, $mailVars, $currency_id, false, $secure_key);
+                 $this->gocoin->addTransactionId((int)$this->gocoin->currentOrder,$transction_id);
+                 $iArray['order_id']= (int)$this->gocoin->currentOrder;
+                 $this->gocoin->updateTransaction('payment',$iArray );   
+               }     
                if(!empty($i_id) && $i_id==$transction_id){
                 switch($event)
                 {
                     case 'invoice_created':
-                    case 'invoice_payment_received':
-                        $sts = (int) Configuration::get('PS_OS_ERROR');
-                        $this->gocoin->validateOrder($cart_id, $sts, $total, $this->gocoin->displayName, NULL, $mailVars, $currency_id, false, $secure_key);
-                        $this->gocoin->addTransactionId((int)$this->gocoin->currentOrder,$transction_id);
-                        $iArray['order_id']= (int)$this->gocoin->currentOrder;
-                        $this->gocoin->updateTransaction('payment',$iArray );
-                      break;
+                    case 'invoice_payment_received': 
+
+                    break;
                     case 'invoice_ready_to_ship':
                     
-                        $sts = (int) Configuration::get('PS_OS_PAYMENT');
-                        $this->gocoin->validateOrder($cart_id, $sts, $total, $this->gocoin->displayName, NULL, $mailVars, $currency_id, false, $secure_key);
-                        $this->gocoin->addTransactionId((int)$this->gocoin->currentOrder,$transction_id);
-                        $iArray['order_id']= (int)$this->gocoin->currentOrder;
-                        $this->gocoin->updateTransaction('payment',$iArray );
+                    if ($cart->OrderExists())
+                    {
+                       if (($status == 'paid') || ($status == 'ready_to_ship')) {
+                          $order = new Order((int)Order::getOrderByCartId($cart->id));
+                          $order_status = (int) Configuration::get('PS_OS_PAYMENT');
+                          $new_history = new OrderHistory();
+                          $new_history->id_order = (int)$order->id;
+                          $new_history->changeIdOrderState((int)$order_status, $order, true);
+                          $new_history->addWithemail(true);
+                          $iArray['order_id']= (int)$order->id;
+
+                          $this->gocoin->updateTransaction('payment',$iArray );  
+                        }
+                    }
+                       
                         break;
                         
                 }
