@@ -16,9 +16,8 @@
 	{l s='Congratulations! Your order has been saved under' mod='gocoinpay'}{if isset($gocoin_order.reference)} {l s='the reference' mod='gocoinpay'} <b>{$gocoin_order.reference|escape:html:'UTF-8'}</b>{else} {l s='the ID' mod='gocoinpay'} <b>{$gocoin_order.id|escape:html:'UTF-8'}</b>{/if}.
 </div>
 {else}
-<div class="error">
-	{l s='Unfortunately, an error occurred during the transaction.' mod='gocoinpay'}<br /><br />
-	{l s='Please double-check your credit card details and try again. If you need further assistance, feel free to contact us anytime.' mod='gocoinpay'}<br /><br />
+<div class="conf confirmation">
+	{l s='Awaiting Payment Confirmation from GoCoin.' mod='gocoinpay'}<br /><br />
 {if isset($gocoin_order.reference)}
 	({l s='Your Order\'s Reference:' mod='gocoinpay'} <b>{$gocoin_order.reference|escape:html:'UTF-8'}</b>)
 {else}
