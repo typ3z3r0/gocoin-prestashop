@@ -1,7 +1,10 @@
 {**}
 
 {capture name=path}{l s='GoCoin payment.' mod='gocoin'}{/capture}
-{include file="$tpl_dir./breadcrumb.tpl"}
+ 
+ {if $_show_breadcrumb== '1'}
+            {include file="$tpl_dir./breadcrumb.tpl"}
+ {/if}
 <style type="text/css">
     #module-gocoin-payment #left_column {ldelim} display:none !important {rdelim}
     #module-gocoin-payment #center_column {ldelim} width:757px !important {rdelim}
@@ -15,7 +18,7 @@
     <p class="warning">{l s='Your shopping cart is empty.' mod='gocoin'}</p>
 {else}
 
-    <h3>{l s='GoCoin payment.' mod='gocoin'}</h3>
+  <!--  <h3>{l s='GoCoin payment.' mod='gocoin'}</h3>-->
 
     <p>
         <img src="{$this_path_bw}logo.png" alt="{l s='GoCoin' mod='gocoin'}" width="86" height="49" style="float:left; margin: 0px 10px 5px 0px;" />

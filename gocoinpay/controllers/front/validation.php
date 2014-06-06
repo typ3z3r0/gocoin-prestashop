@@ -124,10 +124,7 @@ class gocoin_validation
                     $msg = "\n Fingerprint : ".$fprint. "does not match for Order id :".$order_id;
                     error_log($msg, 3, 'gocoin_error_log.txt');
                 }
-                else{
-                    $msg = "\n No Fingerprint received for with Order id :".$order_id;
-                    error_log($msg, 3, 'gocoin_error_log.txt');
-                }
+                 
            }
 
       }      
