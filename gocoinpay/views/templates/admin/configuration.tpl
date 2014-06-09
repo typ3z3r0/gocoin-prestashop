@@ -38,7 +38,7 @@
 
                 <label for="gocoin_token">{l s='Access Token:' mod='gocoin'}</label></td>
                 <div class="margin-form">
-                    <input type="text" name="gocoin_token" class="input-text" value="{if $gocoin_configuration.GOCOIN_TOKEN}{$gocoin_configuration.GOCOIN_TOKEN|escape:'htmlall':'UTF-8'}{/if}" />  
+                    <input type="text" name="gocoin_token" class="input-text" value="{if $gocoin_configuration.GOCOIN_TOKEN}{$gocoin_configuration.GOCOIN_TOKEN|escape:'htmlall':'UTF-8'}{/if}" /> <sup>*</sup>
                 </div>
                 <!--label for="gocoin_pay_type">{l s='Payment Type:' mod='gocoin'}</label></td>
                 <div class="margin-form">
@@ -65,7 +65,7 @@
                         }
 
                         var currentUrl = baseurl + 'index.php?fc=module&module=gocoinpay&controller=create_token';
-                        alert(currentUrl);
+                        //alert(currentUrl);
                         var url = "https://dashboard.gocoin.com/auth?response_type=code"
                                 + "&client_id=" + client_id
                                 + "&scope=user_read+merchant_read+invoice_read_write"

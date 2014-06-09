@@ -10,9 +10,9 @@ class GocoinpayCreate_tokenModuleFrontController extends ModuleFrontController
   
 	public function initContent()
   {
-        $code = isset($_REQUEST['code']) && !empty($_REQUEST['code'])? $_REQUEST['code']:'';
-        $client_id = Configuration::get('GOCOIN_MERCHANT_ID'); 
-        $client_secret = Configuration::get('GOCOIN_ACCESS_KEY');
+        $code           = isset($_REQUEST['code']) && !empty($_REQUEST['code'])? $_REQUEST['code']:'';
+        $client_id      = Configuration::get('GOCOIN_MERCHANT_ID');
+        $client_secret  = Configuration::get('GOCOIN_ACCESS_KEY');
 
         try {
             $token = GoCoin::requestAccessToken($client_id, $client_secret, $code, null);
@@ -20,6 +20,6 @@ class GocoinpayCreate_tokenModuleFrontController extends ModuleFrontController
         } catch (Exception $e) {
             echo "Problem in getting Token: " . $e->getMessage();
         }
-        die('');
+        die();
   }
 }

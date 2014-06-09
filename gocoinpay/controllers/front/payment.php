@@ -54,10 +54,20 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
         $url = array();
         $url['cancel_url']      = $this->context->link->getPageLink('order.php', '');
         $url['callback_url']    = $this->context->link->getModuleLink('gocoinpay', 'validation', array('pps' => 1), false);
-        $url['redirect_url']    = ((int) version_compare(_PS_VERSION_, '1.4', '>')) ?
-                (Configuration::get('PS_SSL_ENABLED') ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)) .
-                __PS_BASE_URI__ . 'order-confirmation.php?id_cart=' . (int) $this->context->cart->id . '&id_module=' . (int) $this->module->id . '&key=' . $this->context->customer->secure_key :
-                $this->context->link->getPageLink('order-confirmation.php', null, null, array('id_cart' => (int) $this->context->cart->id, 'key' => $this->context->customer->secure_key, 'id_module' => $this->module->id));
+        
+        $ps_version = _PS_VERSION_;
+        $show_breadcrumb = '1';
+         if((int) version_compare($ps_version, '1.5.6.2', '>')){
+         $url['redirect_url']    =  (Configuration::get('PS_SSL_ENABLED') ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)).__PS_BASE_URI__ . 'order-confirmation?id_cart=' . (int) $this->context->cart->id . '&id_module=' . (int) $this->module->id . '&key=' . $this->context->customer->secure_key ; 
+         $show_breadcrumb = '0';
+        }  
+        elseif ((int) version_compare($ps_version, '1.4', '>')) {
+          $url['redirect_url']    =  (Configuration::get('PS_SSL_ENABLED') ? Tools::getShopDomainSsl(true) : Tools::getShopDomain(true)).__PS_BASE_URI__ . 'order-confirmation.php?id_cart=' . (int) $this->context->cart->id . '&id_module=' . (int) $this->module->id . '&key=' . $this->context->customer->secure_key ; 
+        }
+        else{
+            $url['redirect_url']    = $this->context->link->getPageLink('order-confirmation.php', null, null, array('id_cart' => (int) $this->context->cart->id, 'key' => $this->context->customer->secure_key, 'id_module' => $this->module->id));
+        }
+        
 
         $options = array();
         $options = array(
@@ -140,10 +150,11 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
             catch (Exception $e) 
             {
                 $result = 'error';
-                $messages = $invoice->error;
+                $messages = 'GoCoin Invalid Settings';
             }
         }
         $this->context->smarty->assign(array(
+            '_show_breadcrumb' => $show_breadcrumb,
             '_payformaction' => $this->context->link->getModuleLink('gocoinpay', 'payform', array('pps' => 1), false),
             '_jsondata'      => $json_str,
             '_result'        => $result,

@@ -11,7 +11,7 @@ class Gocoinpay extends PaymentModule {
     public function __construct() {
 
         $this->name = 'gocoinpay';
-        $this->version = '1.3.1';
+        $this->version = '1.3.2';
         $this->author = 'GoCoinpay';
         $this->className = 'Gocoinpay';
         $this->tab = 'payments_gateways';
