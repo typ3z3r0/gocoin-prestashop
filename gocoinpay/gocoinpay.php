@@ -11,7 +11,7 @@ class Gocoinpay extends PaymentModule {
     public function __construct() {
 
         $this->name = 'gocoinpay';
-        $this->version = '1.3.2';
+        $this->version = '1.3.3';
         $this->author = 'GoCoinpay';
         $this->className = 'Gocoinpay';
         $this->tab = 'payments_gateways';
@@ -106,8 +106,8 @@ class Gocoinpay extends PaymentModule {
         /* Uncomment this line if you would like to also delete the Transaction details table */
         /* $result &= Db::getInstance()->Execute('DROP TABLE `'._DB_PREFIX_.'gocoin_ipn`'); */
         return $result && parent::uninstall();
-    }
-
+   }
+ 
     /* GoCoin configuration section
      *
      * @return HTML page (template) to configure the Addon
@@ -166,7 +166,7 @@ class Gocoinpay extends PaymentModule {
          */
 
         if (!isset($_POST['gocoin_token']) || !$_POST['gocoin_token'])
-           // $this->_error[] = $this->l('Access Token is required.');
+            $this->_error[] = $this->l('Access Token is required.');
 
         Configuration::updateValue('GOCOIN_MERCHANT_ID', pSQL(Tools::getValue('gocoin_merchant_id')));
         Configuration::updateValue('GOCOIN_ACCESS_KEY', pSQL(Tools::getValue('gocoin_access_key')));
@@ -190,17 +190,13 @@ class Gocoinpay extends PaymentModule {
 
         if (!$this->checkCurrency($params['cart']))
             return;
-        $paytype = Configuration::get('GOCOIN_PAY_TYPE');
-        $pay_arr = @explode('|', $paytype);
-        if (!$paytype) {
-            return;
-        }
-
+        
         $this->smarty->assign(array(
-            'this_path' => $this->_path,
-            'this_path_bw' => $this->_path,
-            'this_path_ssl' => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
-            'paytype' => $pay_arr
+            'this_path'        => $this->_path,
+            'this_path_bw'     => $this->_path,
+            'this_path_ssl'    => Tools::getShopDomainSsl(true, true) . __PS_BASE_URI__ . 'modules/' . $this->name . '/',
+            'paytype'          => $pay_arr,
+            'gocoinpay_action' => $this->context->link->getModuleLink('gocoinpay', 'payment' ,array(),(Configuration::get('PS_SSL_ENABLED'))?true :false )
         ));
         return $this->display(__FILE__, 'payment.tpl');
     }
@@ -224,6 +220,7 @@ class Gocoinpay extends PaymentModule {
      */
 
     public function hookOrderConfirmation($params) {
+        
         if (!isset($params['objOrder']) || ($params['objOrder']->module != $this->name))
             return false;
         if (isset($params['objOrder']) && Validate::isLoadedObject($params['objOrder']) && isset($params['objOrder']->valid) &&
@@ -231,9 +228,6 @@ class Gocoinpay extends PaymentModule {
             $this->smarty->assign('gocoin_order', array('id' => $params['objOrder']->id, 'reference' => $params['objOrder']->reference, 'valid' => $params['objOrder']->valid));
             return $this->display(__FILE__, 'views/templates/hook/order-confirmation.tpl');
         }
-
-
-
         // 2013-11-8 add 1.4 support
         if (isset($params['objOrder']) && Validate::isLoadedObject($params['objOrder']) && isset($params['objOrder']->valid) &&
                 version_compare(_PS_VERSION_, '1.5', '<')) {

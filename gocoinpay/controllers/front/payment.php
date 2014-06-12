@@ -53,7 +53,7 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
 
         $url = array();
         $url['cancel_url']      = $this->context->link->getPageLink('order.php', '');
-        $url['callback_url']    = $this->context->link->getModuleLink('gocoinpay', 'validation', array('pps' => 1), false);
+        $url['callback_url']    = $this->context->link->getModuleLink('gocoinpay', 'validation', array('pps' => 1), (Configuration::get('PS_SSL_ENABLED'))?true :false);
         
         $ps_version = _PS_VERSION_;
         $show_breadcrumb = '1';
@@ -91,6 +91,7 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
             'user_defined_3'        => $cart->id,
         );
 
+        
         $key                       = $gocoin->getGUID();
         $signature                 = $gocoin->getSignatureText($options, $key);
         $options['user_defined_8'] = $signature;
@@ -121,7 +122,7 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
                         }
                         elseif (isset($invoice->merchant_id) && $invoice->merchant_id != '' && isset($invoice->id) && $invoice->id != '') {
                             $url = $gocoin_url . $invoice->merchant_id . "/invoices/" . $invoice->id;
-                            
+                             
                             $result = 'success';
                             $messages = 'success';
                             $redirect = $url;
@@ -139,7 +140,8 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
                                 'updated_time'      => $invoice->updated_at,
                                 'fingerprint'       => $signature,
                             );
-                            $json_str = serialize($json_array);
+                            $gocoin->addTransaction($type = 'payment', $json_array);  
+                           
                         }
                     }
                 } else {
@@ -155,8 +157,7 @@ class GocoinpayPaymentModuleFrontController extends ModuleFrontController {
         }
         $this->context->smarty->assign(array(
             '_show_breadcrumb' => $show_breadcrumb,
-            '_payformaction' => $this->context->link->getModuleLink('gocoinpay', 'payform', array('pps' => 1), false),
-            '_jsondata'      => $json_str,
+            '_payformaction' => $this->context->link->getModuleLink('gocoinpay', 'payform', array(),  (Configuration::get('PS_SSL_ENABLED'))?true :false),
             '_result'        => $result,
             '_messages'      => $messages,
             '_redirect'      => $redirect,
