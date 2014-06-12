@@ -21,7 +21,7 @@
   <!--  <h3>{l s='GoCoin payment.' mod='gocoin'}</h3>-->
 
     <p>
-        <img src="{$this_path_bw}logo.png" alt="{l s='GoCoin' mod='gocoin'}" width="90" style="float:left; margin: 0px 10px 5px 0px;" />
+        <img src="{$this_path_bw}logo.png" alt="{l s='GoCoin' mod='gocoin'}" width="86" height="49" style="float:left; margin: 0px 10px 5px 0px;" />
         {l s='You have chosen to pay by GoCoin Payment Gateway.' mod='gocoin'}
         <br/><br />
         {l s='Here is a short summary of your order:' mod='gocoin'}
@@ -51,7 +51,6 @@
                 {if $_result eq 'success'}
                     {if $_result != ''}
                         <form name="payform" method="post" action="{$_payformaction}" > 
-                        <input type='hidden' name='jData' value='{$_jsondata}'>
                         <input type='hidden' name='gurl' value="{$_redirect}" >  
                         <input type="submit" class="exclusive_large" value="{l s='Place my order' mod='gocoin'}" >
                       </form>  
