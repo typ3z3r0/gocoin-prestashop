@@ -25,7 +25,7 @@ class Gocoinpay extends PaymentModule {
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details?');
         /* Backward compatibility */
         require(_PS_MODULE_DIR_ . 'gocoinpay/backward_compatibility/backward.php');
-        $this->context->smarty->assign('base_url', _PS_BASE_URL_ . __PS_BASE_URI__);
+        $this->context->smarty->assign('base_url', 'https://'.Tools::getHttpHost().__PS_BASE_URI__);
         $this->context->smarty->assign('base_dir', __PS_BASE_URI__);
     }
 
